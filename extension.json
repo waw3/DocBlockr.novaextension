@@ -1,0 +1,441 @@
+{
+    "identifier": "com.william.DocBlockr",
+    "name": "DocBlockr",
+    "organization": "William",
+    "description": "Nova extension to make writing documentation easier",
+    "version": "0.9.4",
+    "categories": ["completions", "commands"],
+    "bugs": "https://github.com/waw3/DocBlockr.novaextension/issues",
+    "repository": "https://github.com/waw3/DocBlockr.novaextension",
+    "license": "MIT",
+
+    "main": "main.js",
+
+    "activationEvents": [
+        "onLanguage:c",
+        "onLanguage:cpp",
+        "onLanguage:java",
+        "onLanguage:javascript",
+        "onLanguage:jsx",
+        "onLanguage:lsl",
+        "onLanguage:objc",
+        "onLanguage:php",
+        "onLanguage:ruby",
+        "onLanguage:rust",
+        "onLanguage:swift",
+        "onLanguage:typescript",
+        "onLanguage:tsx"
+    ],
+
+    "commands": {
+        "editor": [
+            {
+                "title": "Insert DocBlock",
+                "command": "com.william.DocBlockr.cmd.insertDocBlock",
+                "when": "editorHasFocus && !editorHasSelection",
+                "filters": {
+                    "syntaxes": ["c", "cpp", "java", "javascript", "jsx", "lsl", "objc", "php", "ruby", "rust", "swift", "typescript", "tsx"]
+                }
+            },
+            {
+                "title": "Format DocBlock",
+                "command": "com.william.DocBlockr.cmd.formatDocBlock",
+                "when": "editorHasFocus",
+                "filters": {
+                    "syntaxes": ["c", "cpp", "java", "javascript", "jsx", "lsl", "objc", "php", "ruby", "typescript", "tsx"]
+                }
+            }
+        ],
+        "text": [
+            {
+                "title": "Insert Linebreak",
+                "command": "com.william.DocBlockr.cmd.insertLinebreak",
+                "shortcut": "return",
+                "when": "editorHasFocus && !editorHasSelection && com.william.DocBlockr.evt.keyReturn",
+                "filters": {
+                    "syntaxes": ["c", "cpp", "java", "javascript", "jsx", "lsl", "objc", "php", "ruby", "rust", "swift", "typescript", "tsx"]
+                }
+            },
+            {
+                "title": "Insert Tab",
+                "command": "com.william.DocBlockr.cmd.insertTab",
+                "shortcut": "tab",
+                "when": "editorHasFocus && !editorHasSelection && com.william.DocBlockr.evt.keyTab",
+                "filters": {
+                    "syntaxes": ["c", "cpp", "java", "javascript", "jsx", "lsl", "objc", "php", "typescript", "tsx"]
+                }
+            }
+        ]
+    },
+
+    "config": [
+        {
+            "key": "com.william.DocBlockr.config.sectionMain",
+            "title": "Settings",
+            "description": "Enable DocBlockr for the following languages:",
+            "type": "section",
+            "children": [
+                {
+                    "key": "com.william.DocBlockr.config.enableCPP",
+                    "title": "C/C++",
+                    "type": "boolean",
+                    "default": true
+                },
+                {
+                    "key": "com.william.DocBlockr.config.enableJava",
+                    "title": "Java",
+                    "type": "boolean",
+                    "default": true
+                },
+                {
+                    "key": "com.william.DocBlockr.config.enableJS",
+                    "title": "JavaScript",
+                    "type": "boolean",
+                    "default": true
+                },
+                {
+                    "key": "com.william.DocBlockr.config.enableObjC",
+                    "title": "ObjC",
+                    "type": "boolean",
+                    "default": true
+                },
+                {
+                    "key": "com.william.DocBlockr.config.enablePHP",
+                    "title": "PHP",
+                    "type": "boolean",
+                    "default": true
+                },
+                {
+                    "key": "com.william.DocBlockr.config.enableRuby",
+                    "title": "Ruby",
+                    "type": "boolean",
+                    "default": true
+                },
+                {
+                    "key": "com.william.DocBlockr.config.enableRust",
+                    "title": "Rust",
+                    "type": "boolean",
+                    "default": true
+                },
+                {
+                    "key": "com.william.DocBlockr.config.enableSwift",
+                    "title": "Swift",
+                    "type": "boolean",
+                    "default": true
+                },
+                {
+                    "key": "com.william.DocBlockr.config.enableTS",
+                    "title": "TypeScript",
+                    "type": "boolean",
+                    "default": true
+                }
+            ]
+        },
+        {
+            "key": "com.william.DocBlockr.config.sectionFormat",
+            "title": "Format Settings",
+            "type": "section",
+            "children": [
+                {
+                    "key": "com.william.DocBlockr.config.addEmptyLineCPP",
+                    "title": "C/C++",
+                    "type": "enum",
+                    "values": [[1, "Add empty line after summary"], [2, "Add empty line between sections"], [0, "Don’t add empty lines"]],
+                    "default": 1,
+                    "radio": false
+                },
+                {
+                    "key": "com.william.DocBlockr.config.addEmptyLineJava",
+                    "title": "Java",
+                    "type": "enum",
+                    "values": [[1, "Add empty line after summary"], [2, "Add empty line between sections"], [0, "Don’t add empty lines"]],
+                    "default": 1,
+                    "radio": false
+                },
+                {
+                    "key": "com.william.DocBlockr.config.addEmptyLineJS",
+                    "title": "JavaScript",
+                    "type": "enum",
+                    "values": [[1, "Add empty line after summary"], [2, "Add empty line between sections"], [0, "Don’t add empty lines"]],
+                    "default": 0,
+                    "radio": false
+                },
+                {
+                    "key": "com.william.DocBlockr.config.addEmptyLineObjC",
+                    "title": "ObjC",
+                    "type": "enum",
+                    "values": [[1, "Add empty line after summary"], [2, "Add empty line between sections"], [0, "Don’t add empty lines"]],
+                    "default": 1,
+                    "radio": false
+                },
+                {
+                    "key": "com.william.DocBlockr.config.addEmptyLinePHP",
+                    "title": "PHP",
+                    "type": "enum",
+                    "values": [[1, "Add empty line after summary"], [2, "Add empty line between sections"], [0, "Don’t add empty lines"]],
+                    "default": 2,
+                    "radio": false
+                },
+                {
+                    "key": "com.william.DocBlockr.config.addEmptyLineTS",
+                    "title": "TypeScript",
+                    "type": "enum",
+                    "values": [[1, "Add empty line after summary"], [2, "Add empty line between sections"], [0, "Don’t add empty lines"]],
+                    "default": 0,
+                    "radio": false
+                },
+                {
+                    "key": "com.william.DocBlockr.config.alignTags",
+                    "title": "Align Tags",
+                    "type": "enum",
+                    "values": [[0, "Don’t align tags"], [1, "Shallow"], [3, "Deep"]],
+                    "default": 0
+                },
+                {
+                    "key": "com.william.DocBlockr.config.commentStyle",
+                    "title": "C Comment Style",
+                    "description": "Style for C/C++ and ObjC/ObjC++ DocBlocks",
+                    "type": "enum",
+                    "values": [[0, "Javadoc  ( /** @param */ )"], [1, "Qt  ( /*! \\param */ )"]],
+                    "default": 1,
+                    "radio": false
+                },
+                {
+                    "key": "com.william.DocBlockr.config.commentStyleRuby",
+                    "title": "Ruby Comment Style",
+                    "description": "Style for Ruby DocBlocks",
+                    "type": "enum",
+                    "values": [[0, "RDoc"], [1, "YARD"]],
+                    "default": 1,
+                    "radio": false
+                }
+            ]
+        },
+        {
+            "key": "com.william.DocBlockr.config.sectionCustomTags",
+            "title": "Header Tags",
+            "type": "section",
+            "children": [
+                {
+                    "key": "com.william.DocBlockr.config.customTags",
+                    "title": "Tags",
+                    "description": "Specify which tags should be added to header blocks",
+                    "type": "stringArray",
+                    "default": ["@author $AUTHOR_NAME"]
+                }
+            ]
+        },
+        {
+            "key": "com.william.DocBlockr.config.sectionExperimental",
+            "title": "Experimental Features",
+            "type": "section",
+            "children": [
+                {
+                    "key": "com.william.DocBlockr.config.extendComments",
+                    "title": "Extend Comments",
+                    "description": "Pressing enter inside a docblock will automatically insert a leading asterisk",
+                    "type": "boolean",
+                    "default": false
+                },
+                {
+                    "key": "com.william.DocBlockr.config.bookmarkComments",
+                    "title": "Bookmark Comments",
+                    "link": "https://help.panic.com/nova/symbols-sidebar/#placing-bookmarks",
+                    "type": "boolean",
+                    "default": false
+                },
+                {
+                    "key": "com.william.DocBlockr.config.ESLintComments",
+                    "title": "ESLint Comments",
+                    "description": "Just a convenience to quickly insert \"eslint-disable-next-line\" comments. Yes, I’m lazy ;)",
+                    "type": "boolean",
+                    "default": false
+                }
+            ]
+        }
+    ],
+
+    "configWorkspace": [
+        {
+            "key": "com.william.DocBlockr.workspace.sectionMain",
+            "title": "Workspace Settings",
+            "type": "section",
+            "children": [
+                {
+                    "key": "com.william.DocBlockr.workspace.enableCPP",
+                    "title": "C/C++",
+                    "type": "enum",
+                    "values": [[null, "Use global settings"], [true, "Enabled"], [false, "Disabled"]],
+                    "radio": false,
+                    "default": null
+                },
+                {
+                    "key": "com.william.DocBlockr.workspace.enableJava",
+                    "title": "Java",
+                    "type": "enum",
+                    "values": [[null, "Use global settings"], [true, "Enabled"], [false, "Disabled"]],
+                    "radio": false,
+                    "default": null
+                },
+                {
+                    "key": "com.william.DocBlockr.workspace.enableJS",
+                    "title": "JavaScript",
+                    "type": "enum",
+                    "values": [[null, "Use global settings"], [true, "Enabled"], [false, "Disabled"]],
+                    "radio": false,
+                    "default": null
+                },
+                {
+                    "key": "com.william.DocBlockr.workspace.enableObjC",
+                    "title": "ObjC",
+                    "type": "enum",
+                    "values": [[null, "Use global settings"], [true, "Enabled"], [false, "Disabled"]],
+                    "radio": false,
+                    "default": null
+                },
+                {
+                    "key": "com.william.DocBlockr.workspace.enablePHP",
+                    "title": "PHP",
+                    "type": "enum",
+                    "values": [[null, "Use global settings"], [true, "Enabled"], [false, "Disabled"]],
+                    "radio": false,
+                    "default": null
+                },
+                {
+                    "key": "com.william.DocBlockr.workspace.enableRuby",
+                    "title": "Ruby",
+                    "type": "enum",
+                    "values": [[null, "Use global settings"], [true, "Enabled"], [false, "Disabled"]],
+                    "radio": false,
+                    "default": null
+                },
+                {
+                    "key": "com.william.DocBlockr.workspace.enableRust",
+                    "title": "Rust",
+                    "type": "enum",
+                    "values": [[null, "Use global settings"], [true, "Enabled"], [false, "Disabled"]],
+                    "radio": false,
+                    "default": null
+                },
+                {
+                    "key": "com.william.DocBlockr.workspace.enableSwift",
+                    "title": "Swift",
+                    "type": "enum",
+                    "values": [[null, "Use global settings"], [true, "Enabled"], [false, "Disabled"]],
+                    "radio": false,
+                    "default": null
+                },
+                {
+                    "key": "com.william.DocBlockr.workspace.enableTS",
+                    "title": "TypeScript",
+                    "type": "enum",
+                    "values": [[null, "Use global settings"], [true, "Enabled"], [false, "Disabled"]],
+                    "radio": false,
+                    "default": null
+                }
+            ]
+        },
+        {
+            "key": "com.william.DocBlockr.workspace.sectionFormat",
+            "title": "Format Settings",
+            "type": "section",
+            "children": [
+                {
+                    "key": "com.william.DocBlockr.workspace.addEmptyLineCPP",
+                    "title": "C/C++",
+                    "type": "enum",
+                    "values": [[null, "Use global settings"], [1, "Add empty line after summary"], [2, "Add empty line between sections"], [0, "Don’t add empty lines"]],
+                    "radio": false,
+                    "default": null
+                },
+                {
+                    "key": "com.william.DocBlockr.workspace.addEmptyLineJava",
+                    "title": "Java",
+                    "type": "enum",
+                    "values": [[null, "Use global settings"], [1, "Add empty line after summary"], [2, "Add empty line between sections"], [0, "Don’t add empty lines"]],
+                    "radio": false,
+                    "default": null
+                },
+                {
+                    "key": "com.william.DocBlockr.workspace.addEmptyLineJS",
+                    "title": "JavaScript",
+                    "type": "enum",
+                    "values": [[null, "Use global settings"], [1, "Add empty line after summary"], [2, "Add empty line between sections"], [0, "Don’t add empty lines"]],
+                    "radio": false,
+                    "default": null
+                },
+                {
+                    "key": "com.william.DocBlockr.workspace.addEmptyLineObjC",
+                    "title": "ObjC",
+                    "type": "enum",
+                    "values": [[null, "Use global settings"], [1, "Add empty line after summary"], [2, "Add empty line between sections"], [0, "Don’t add empty lines"]],
+                    "radio": false,
+                    "default": null
+                },
+                {
+                    "key": "com.william.DocBlockr.workspace.addEmptyLinePHP",
+                    "title": "PHP",
+                    "type": "enum",
+                    "values": [[null, "Use global settings"], [1, "Add empty line after summary"], [2, "Add empty line between sections"], [0, "Don’t add empty lines"]],
+                    "radio": false,
+                    "default": null
+                },
+                {
+                    "key": "com.william.DocBlockr.workspace.addEmptyLineTS",
+                    "title": "TypeScript",
+                    "type": "enum",
+                    "values": [[null, "Use global settings"], [1, "Add empty line after summary"], [2, "Add empty line between sections"], [0, "Don’t add empty lines"]],
+                    "radio": false,
+                    "default": null
+                },
+                {
+                    "key": "com.william.DocBlockr.workspace.alignTags",
+                    "title": "Align Tags",
+                    "type": "enum",
+                    "values": [[null, "Use global settings"], [0, "Don’t align tags"], [1, "Shallow"], [3, "Deep"]],
+                    "radio": false,
+                    "default": null
+                },
+                {
+                    "key": "com.william.DocBlockr.workspace.commentStyle",
+                    "title": "C Comment Style",
+                    "type": "enum",
+                    "values": [[null, "Use global settings"], [0, "Javadoc  ( /** @param */ )"], [1, "Qt  ( /*! \\param */ )"]],
+                    "default": null,
+                    "radio": false
+                },
+                {
+                    "key": "com.william.DocBlockr.workspace.commentStyleRuby",
+                    "title": "Ruby Comment Style",
+                    "type": "enum",
+                    "values": [[null, "Use global settings"], [0, "RDoc"], [1, "YARD"]],
+                    "default": null,
+                    "radio": false
+                }
+            ]
+        },
+        {
+            "key": "com.william.DocBlockr.workspace.sectionCustomTags",
+            "title": "Header Tags",
+            "type": "section",
+            "children": [
+                {
+                    "key": "com.william.DocBlockr.workspace.useWorkspaceTags",
+                    "title": "Workspace",
+                    "type": "enum",
+                    "values": [[null, "Use global settings"], [true, "Use tags specified below"]],
+                    "default": null
+                },
+                {
+                    "key": "com.william.DocBlockr.workspace.customTags",
+                    "title": "Tags",
+                    "type": "stringArray"
+                }
+            ]
+        }
+    ],
+
+    "entitlements": {
+        "clipboard": true, "filesystem": "readwrite", "process": true, "requests": true
+    }
+}
